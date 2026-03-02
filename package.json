@@ -1,0 +1,14 @@
+{
+  "name": "exam-prep-root",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "install:all": "yarn --cwd server install && yarn --cwd client install",
+    "postinstall": "yarn --cwd client install --silent && yarn --cwd client build --silent",
+    "build": "yarn --cwd client build",
+    "start": "yarn --cwd server start"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
