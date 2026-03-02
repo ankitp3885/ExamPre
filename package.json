@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "scripts": {
     "install:all": "yarn --cwd server install && yarn --cwd client install",
-    "postinstall": "yarn --cwd client install --silent && yarn --cwd client build --silent",
-    "build": "yarn --cwd client build",
+    "postinstall": "yarn --cwd client install --silent && yarn --cwd client run build",
+    "build": "yarn --cwd client run build",
     "start": "yarn --cwd server start"
   },
   "engines": {
