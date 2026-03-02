@@ -1,6 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router";
 import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminLogin from "./pages/admin/adminLogin";
+import AdminLogin from "./pages/admin/AdminLogin";
 import Examination from "./pages/admin/Examination";
 import QuestionBank from "./pages/admin/QuestionBank";
 import Login from './pages/Login';
