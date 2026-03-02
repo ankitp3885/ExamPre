@@ -50,13 +50,17 @@ app.get("/", (req, res) => {
 });
 
 /* MongoDB Connection (USE ENV VARIABLE) */
-mongoose.connect(process.env.MONGO_URI)
-.then(() => {
-    console.log("MongoDB Connected");
-})
-.catch((err) => {
-    console.log("MongoDB Error:", err);
-});
+if (process.env.MONGO_URI) {
+    mongoose.connect(process.env.MONGO_URI)
+    .then(() => {
+        console.log("MongoDB Connected");
+    })
+    .catch((err) => {
+        console.log("MongoDB Error:", err);
+    });
+} else {
+    console.log("Warning: MONGO_URI not set. Skipping MongoDB connection.");
+}
 
 /* API Routes */
 app.use('/api/admin', require('./routes/adminRoute'));
