@@ -1,7 +1,5 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-
 
 export default function Registration() {
   const [form, setForm] = useState({
@@ -13,37 +11,29 @@ export default function Registration() {
     branch:'',
     session:'',
     phone:'',
- 
+  });
 
-  })
-const handleChange = (e) => {
-    setForm({...form,[e.target.name]:e.target.value})
+  const [sessions, setSessions] = useState([]);
+
+  const handleChange = (e) => {
+    setForm({...form,[e.target.name]:e.target.value});
   };
 
-  const handleSubmit = async(e) => {
-    e.preventDefault();
-    try{
-      const res =await axios.post('http://localhost:5000/api/examinee',form);
-      alert("Registered Successfully")
-      window.location.href='/'
-    }catch(er){
-      console.log(er)
-      alert("Sorry Try Again Later")
-    }
-  }
+  // load sessions from localStorage
+  useEffect(() => {
+    const stored = localStorage.getItem('sessions');
+    if (stored) setSessions(JSON.parse(stored));
+  }, []);
 
-  const[data ,setData] = useState([])
-  const handlefetch =async()=>{
-    try{
-      const res = await axios.get('http://localhost:5000/api/session');
-      setData(res.data)
-    }catch(er){
-    console.log(er)
-  }
-}
-useEffect(()=>{
-  handlefetch();
-},[])
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // save examinee to localStorage list
+    const list = JSON.parse(localStorage.getItem('examinees') || '[]');
+    list.push({ ...form, id: Date.now().toString(), role: 'user' });
+    localStorage.setItem('examinees', JSON.stringify(list));
+    alert("Registered Successfully");
+    window.location.href='/';
+  };
 
   return (
 
@@ -130,9 +120,8 @@ button:hover {
        
       <select name="session" id="" onChange={handleChange} className="form-select">
             <option value="">Select Session</option>
-            
-            {data.map((item)=>(
-              <option key={item._id} value={item._id}>{item.name}</option>
+            {sessions.map((item)=>(
+              <option key={item.id} value={item.id}>{item.name}</option>
             ))}
           </select>
         <button type="submit">REGISTRATION</button>

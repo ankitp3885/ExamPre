@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 
 export default function Session() {
     const [form, setForm] = useState({
@@ -10,58 +9,58 @@ export default function Session() {
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
-const [id, setId] = useState({
-  id:''
-});
-const [edit ,setEdit] = useState(null);
-    const handleSubmit = async (e) => {   
-        e.preventDefault();
-        try {
-           if(edit){
-              const res = await axios.put(`http://localhost:5000/api/session/${id.id}`, form); 
-            alert('Updated Successfully');
-            console.log(res.data);
-           }
-           else{
-             const res = await axios.post('http://localhost:5000/api/session', form); 
-            alert('Added Successfully');
-            console.log(res.data);
-           }
-        } catch (er) {
-            alert('Session not Added');
-            console.error(er);
-        }
-    };
-   const [data, setData] = useState([]);
-   
-   const handlefetch =async()=>{
-    const res =await axios.get('http://localhost:5000/api/session');
-    setData(res.data)
-   }
-   useEffect(()=>{
-    handlefetch()
-   },[])
 
-   const handleDelete =async(id)=>{
-    try{
-      const res =await axios.delete(`http://localhost:5000/api/session/${id}`);
-      alert("Session Deleted Successfully")
-      handlefetch()
-    }catch(er){
-      alert("Sorry Try Again Later")
-      console.log(er);
-    }
-   }
-   const handleEdit =(item)=>{
-    setForm({
-      name:item.name,
-      description:item.description
-    })
-    setImmediate(true)
-    setImmediate({
-      id:item._id
-    });
-   }
+    const [sessions, setSessions] = useState([]);
+    const [editId, setEditId] = useState(null);
+
+    // load sessions from localStorage on mount
+    useEffect(() => {
+        const stored = localStorage.getItem('sessions');
+        if (stored) {
+            setSessions(JSON.parse(stored));
+        }
+    }, []);
+
+    const saveToStorage = (list) => {
+        localStorage.setItem('sessions', JSON.stringify(list));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (editId) {
+            const updated = sessions.map(s =>
+                s.id === editId ? { ...s, name: form.name, description: form.description } : s
+            );
+            setSessions(updated);
+            saveToStorage(updated);
+            alert('Updated Successfully');
+        } else {
+            const newEntry = {
+                id: Date.now().toString(),
+                name: form.name,
+                description: form.description,
+                date: new Date().toLocaleDateString()
+            };
+            const updated = [...sessions, newEntry];
+            setSessions(updated);
+            saveToStorage(updated);
+            alert('Added Successfully');
+        }
+        setForm({ name: '', description: '' });
+        setEditId(null);
+    };
+
+    const handleDelete = (id) => {
+        const filtered = sessions.filter(s => s.id !== id);
+        setSessions(filtered);
+        saveToStorage(filtered);
+        alert('Session Deleted Successfully');
+    };
+
+    const handleEdit = (item) => {
+        setForm({ name: item.name, description: item.description });
+        setEditId(item.id);
+    };
 
     return (
         <div>
@@ -108,15 +107,16 @@ const [edit ,setEdit] = useState(null);
                         </tr>
                     </thead>
                     <tbody>
-                      {data.map((item ,i)=>(
-                        <tr key={item._id}>
-                         <td>{i+1}</td>
+                      {sessions.map((item, i) => (
+                        <tr key={item.id}>
+                         <td>{i + 1}</td>
                          <td>{item.name}</td>
-                          <td>{item.description}</td> 
-                           <td>
-                            <button className='btn-danger btn' onClick={()=>{handleDelete(item._id)}}>Delete</button>
-                            <button className='btn btn-success' onClick={()=>{handleEdit(item)}}>Edit</button>
-                           </td>
+                         <td>{item.description}</td>
+                         <td>{item.date || '--'}</td>
+                         <td>
+                            <button className='btn-danger btn' onClick={() => { handleDelete(item.id); }}>Delete</button>
+                            <button className='btn btn-success' onClick={() => { handleEdit(item); }}>Edit</button>
+                         </td>
                         </tr>
                       ))}
                     </tbody>
