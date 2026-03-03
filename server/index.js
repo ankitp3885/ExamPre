@@ -75,13 +75,6 @@ app.use('/api/admindashboard', require('./routes/adminDashboardRoute'));
 /* PORT FIX (VERY IMPORTANT) */
 const PORT = process.env.PORT || 5000;
 
-// On serverless platforms like Vercel we export the Express app
-// and let the platform create the HTTP server.  Locally we still
-// start a listener for development.
-if (process.env.VERCEL) {
-    module.exports = app;
-} else {
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-    });
-}
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});

@@ -118,25 +118,6 @@ Frontend runs on: http://localhost:5173
 
 ---
 
-## ☁️ Deployment
-
-This project is configured for **automatic deployment to Vercel**. It uses a `vercel.json` file to build both the React client and the Express backend as a serverless function.
-
-### Steps to deploy
-
-1. Sign in to [Vercel](https://vercel.com) and create a new project, linking your GitHub repository.
-2. In your Vercel project settings add the following Environment Variables:
-   - `MONGO_URI` &rarr; connection string for your MongoDB cluster
-3. (Optional) If you want to deploy from GitHub Actions instead of letting Vercel build on push, set the following repository secrets:
-   - `VERCEL_TOKEN`
-   - `VERCEL_ORG_ID`
-   - `VERCEL_PROJECT_ID`
-
-The workflow at `.github/workflows/vercel-deploy.yml` will run on every push to `main` and automatically trigger a Vercel deployment.
-
-> The Express backend lives in `server/index.js` and is exposed under `/api/*` routes. The React build is served from `client/dist`.
-
-
 🌟 Future Improvements
 
 JWT Authentication
