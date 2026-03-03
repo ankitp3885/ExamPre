@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../../config';
 
 const Examination = () => {
   const [formData, setFormData] = useState({
@@ -27,9 +28,9 @@ const Examination = () => {
   const fetchData = async () => {
     try {
       const [subjectRes, sessionRes, examRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/subject'),
-        axios.get('http://localhost:5000/api/session'),
-        axios.get('http://localhost:5000/api/exams/exams')
+        axios.get(`${API_BASE_URL}/api/subject`),
+        axios.get(`${API_BASE_URL}/api/session`),
+        axios.get(`${API_BASE_URL}/api/exams/exams`)
       ]);
       setSubjects(subjectRes.data || []);
       setSessions(sessionRes.data || []);
@@ -92,10 +93,10 @@ const Examination = () => {
 
     try {
       if (isEditing && editingExamId) {
-        await axios.put('http://localhost:5000/api/exams/${editingExamId}', formData);
+        await axios.put(`${API_BASE_URL}/api/exams/${editingExamId}`, formData);
         alert('Exam Updated Successfully');
       } else {
-        await axios.post('http://localhost:5000/api/exams', formData);
+        await axios.post(`${API_BASE_URL}/api/exams`, formData);
         alert('Exam Created Successfully');
       }
 
@@ -121,7 +122,7 @@ const Examination = () => {
   };
 
   const handleDelete = async (id) => {
-    const res = await axios.delete('http://localhost:5000/api/exams/${id}');
+    const res = await axios.delete(`${API_BASE_URL}/api/exams/${id}`);
     if (res) {
       alert("Deleted Successfully");
       fetchData();

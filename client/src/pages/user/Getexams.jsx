@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import axios from 'axios';
+import { API_BASE_URL } from '../../config';
 
 const GetExam = () => {
   const { id: examId } = useParams();
@@ -20,7 +21,7 @@ const GetExam = () => {
   useEffect(() => {
     const fetchExam = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/exams/exam/${examId}`);
+        const res = await axios.get(`${API_BASE_URL}/api/exams/exam/${examId}`);
         const { exam: examData, questions: questionData } = res.data;
         setExam(examData);
         setQuestions(questionData);
@@ -115,7 +116,7 @@ const GetExam = () => {
     if (submitted) return;
 
     try {
-      const res = await axios.post('http://localhost:5000/api/exams/submit-exam', {
+      const res = await axios.post(`${API_BASE_URL}/api/exams/submit-exam`, {
         examId,
         answers,
         email,

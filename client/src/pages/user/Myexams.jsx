@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
+import { API_BASE_URL } from '../../config';
 const Myexams = () =>{
     const [data ,setData]=useState([]);
     const handlefetch = async()=>{
-        const res=await axios.get('http://localhost:5000/api/exams/exams')
+        const res=await axios.get(`${API_BASE_URL}/api/exams/exams`)
         setData(res.data)
         //console.log(res.data[0])
     }

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../../config';
 
 const Examinee = () => {
   const [data, setData] = useState([]);
@@ -19,12 +20,12 @@ const Examinee = () => {
   }, []);
 
   const handlefetch = async () => {
-    const res = await axios.get('http://localhost:5000/api/examinee');
+    const res = await axios.get(`${API_BASE_URL}/api/examinee`);
     setData(res.data);
   };
 
   const handleDelete = async (id) => {
-    const res = await axios.delete(`http://localhost:5000/api/examinee/${id}`);
+    const res = await axios.delete(`${API_BASE_URL}/api/examinee/${id}`);
     if (res) {
       alert("Deleted Successfully");
     } else {
@@ -56,7 +57,7 @@ const Examinee = () => {
     e.preventDefault();
     if (!editingId) return;
     try {
-      await axios.put(`http://localhost:5000/api/examinee/${editingId}`, form);
+      await axios.put(`${API_BASE_URL}/api/examinee/${editingId}`, form);
       alert('Examinee Updated Successfully');
       setForm({
         name: '',

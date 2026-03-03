@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { API_BASE_URL } from "../../config";
 
 const AdminChangepassword = () => {
   const id = localStorage.getItem("userId");
@@ -17,7 +18,7 @@ const AdminChangepassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res =await axios.put(`http://localhost:5000/api/admin/change/${id}`,form)
+      const res =await axios.put(`${API_BASE_URL}/api/admin/change/${id}`,form)
       alert("Password change is successfully");
     } 
  

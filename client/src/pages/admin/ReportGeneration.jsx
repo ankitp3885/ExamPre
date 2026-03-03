@@ -1,10 +1,11 @@
 import React from 'react'
 import { useState,useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../../config';
 const ReportGeneration = () => {
     const [data, setData] = useState([]);
     const handlefetch = async () => {
-        const res = await axios.get('http://localhost:5000/api/exams/report');
+        const res = await axios.get(`${API_BASE_URL}/api/exams/report`);
         console.log(res.data);
         setData(Array.isArray(res.data) ? res.data : [res.data
         ]);

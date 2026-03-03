@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import axios from 'axios';
+import { API_BASE_URL } from '../../config';
 
 function MessageReply() {
 const [messages, setMessages] = useState([]);
@@ -7,7 +8,7 @@ const [messages, setMessages] = useState([]);
 
   const fetchAll = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/message/all');
+      const res = await axios.get(`${API_BASE_URL}/api/message/all`);
       setMessages(res.data.message || []);
     } catch (err) {
       console.error('Error fetching messages for admin:', err);
@@ -24,7 +25,7 @@ const [messages, setMessages] = useState([]);
     const answer = (replyInputs[id] || '').trim();
     if (!answer) return alert('Please type a reply.');
     try {
-      await axios.put(`http://localhost:5000/api/message/reply/${id}`, {
+      await axios.put(`${API_BASE_URL}/api/message/reply/${id}`, {
         answer,
         role: 'admin'
       });
@@ -39,7 +40,7 @@ const [messages, setMessages] = useState([]);
     const newReply = prompt('Edit reply:', currentReply || '');
     if (newReply === null) return;
     try {
-      await axios.put(`http://localhost:5000/api/message/reply/${id}`, {
+      await axios.put(`${API_BASE_URL}/api/message/reply/${id}`, {
         answer: newReply,
         role: 'admin'
       });
@@ -52,7 +53,7 @@ const [messages, setMessages] = useState([]);
   const deleteByAdmin = async (id) => {
     if (!window.confirm('Delete this reply?')) return;
     try {
-      await axios.put(`http://localhost:5000/api/message/delete/${id}`, {
+      await axios.put(`${API_BASE_URL}/api/message/delete/${id}`, {
         role: 'admin'
       });
       fetchAll();

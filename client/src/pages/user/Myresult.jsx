@@ -1,12 +1,13 @@
 
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { API_BASE_URL } from '../../config';
 
 const Result = () => {
     const [data, setData] = useState([])
     const userId = localStorage.getItem('userId')
     const handlefetch = async () => {
-        const res = await axios.get(`http://localhost:5000/api/exams/examinee-result/${userId}`);
+        const res = await axios.get(`${API_BASE_URL}/api/exams/examinee-result/${userId}`);
         console.log(res)
         setData(Array.isArray(res.data.message) ? res.data.message : [res.data.message]);
 

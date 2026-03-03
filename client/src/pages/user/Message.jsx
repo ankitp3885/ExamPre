@@ -1,6 +1,7 @@
 // src/components/ContactA.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../../config';
 
 const Message = () => {
   const [question, setQuestion] = useState('');
@@ -13,7 +14,7 @@ const Message = () => {
   const fetchUserMessages = async () => {
     if (!userId) return;
     try {
-      const res = await axios.get(`http://localhost:5000/api/message/user/${userId}`);
+      const res = await axios.get(`${API_BASE_URL}/api/message/user/${userId}`);
       setMessages(res.data.message || []);
     } catch (err) {
       console.error('Error fetching user messages:', err);
@@ -26,7 +27,7 @@ const Message = () => {
     e.preventDefault();
     if (!question.trim()) return alert('Enter a message');
     try {
-      await axios.post('http://localhost:5000/api/message', { question, examineeId: userId });
+      await axios.post(`${API_BASE_URL}/api/message`, { question, examineeId: userId });
       setQuestion('');
       fetchUserMessages();
     } catch (err) {
@@ -38,7 +39,7 @@ const Message = () => {
     const newText = prompt('Edit your message:', currentText);
     if (newText === null) return;
     try {
-      await axios.put(`http://localhost:5000/api/message/edit/${id}`, {
+      await axios.put(`${API_BASE_URL}/api/message/edit/${id}`, {
         question: newText,
         role: 'user',
         userId
@@ -52,7 +53,7 @@ const Message = () => {
   const deleteByUser = async (id) => {
     if (!window.confirm('Delete this message?')) return;
     try {
-      await axios.put(`http://localhost:5000/api/message/delete/${id}`, {
+      await axios.put(`${API_BASE_URL}/api/message/delete/${id}`, {
         role: 'user',
         userId
       });

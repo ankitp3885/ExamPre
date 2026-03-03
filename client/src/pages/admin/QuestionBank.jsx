@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../../config";
 
 const QuestionBank= () => {
     const [formData, setFormdata] = useState({
@@ -26,13 +27,13 @@ const QuestionBank= () => {
         try {
             if (editform) {
                 const res = await axios.put(
-                    `http://localhost:5000/api/question/${id}`,
+                    `${API_BASE_URL}/api/question/${id}`,
                     formData
                 );
                 if (res) alert("Question updated successfully");
             } else {
                 const res = await axios.post(
-                    "http://localhost:5000/api/question",
+                    `${API_BASE_URL}/api/question`,
                     formData
                 );
                 if (res) alert("Question added successfully");
@@ -60,9 +61,9 @@ const QuestionBank= () => {
     // fetch questions + subjects
     const handlefetch = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/question");
+            const res = await axios.get(`${API_BASE_URL}/api/question`);
             setData(res.data.data || res.data || []);
-            const res1 = await axios.get("http://localhost:5000/api/subject");
+            const res1 = await axios.get(`${API_BASE_URL}/api/subject`);
             setSubjects(res1.data || res1.data || []);
         } catch (err) {
             console.error(err);
@@ -79,7 +80,7 @@ const QuestionBank= () => {
     const handleDelete = async (id) => {
         try {
             const res = await axios.delete(
-                `http://localhost:5000/api/question/${id}`
+                `${API_BASE_URL}/api/question/${id}`
             );
             if (res) {
                 alert("Deleted Successfully");
