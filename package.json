@@ -6,10 +6,10 @@
   "express": "^4.18.2"
 },
   "scripts": {
-    "install:all": "yarn --cwd server install && yarn --cwd client install",
-    "postinstall": "yarn --cwd client install --silent && yarn --cwd client run build",
-    "build": "yarn install && yarn --cwd client install && yarn --cwd client run build",
-    "start": "yarn --cwd server start"
+    "install:all": "npm --prefix server install && npm --prefix client install",
+    "postinstall": "npm --prefix client install && npm --prefix client run build",
+    "build": "npm install && npm --prefix client install && npm --prefix client run build",
+    "start": "npm --prefix server start"
   },
   "engines": {
     "node": ">=18"

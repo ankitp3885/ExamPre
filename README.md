@@ -93,12 +93,14 @@ All relations are managed using MongoDB ObjectId references.
 
 ```bash
 git clone https://github.com/ankitp3885/ExamPrepration-app.git
+```
 
-3️⃣ Backend Setup (for local development)
+### 2️⃣ Backend Setup (for local development)
+
 ```bash
 cd server
 npm install
-nodemon index.js
+npm start
 ```
 
 Server runs on:
@@ -107,7 +109,8 @@ Server runs on:
 http://localhost:5000
 ```
 
-3️⃣ Frontend Setup
+### 3️⃣ Frontend Setup
+
 ```bash
 cd client
 npm install
