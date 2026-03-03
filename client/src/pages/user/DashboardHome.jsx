@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const HomeDashboard = () => {
   const [userData] = useState({
-    name: "Aditya Kumar",
+    name: "",
     totalExams: 12,
     attemptedExams: 10,
     averageScore: 70,
